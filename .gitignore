@@ -1,0 +1,9 @@
+ClassNotes/
+*.exe
+*.dll
+*.obj
+*.lib
+*.out
+*.so
+*.o
+*.a
