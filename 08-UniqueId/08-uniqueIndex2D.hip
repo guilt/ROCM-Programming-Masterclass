@@ -3,28 +3,23 @@
 
 #include <hip/hip_runtime.h>
 
-__global__ void uniqueIndexCalcThreadIdx(int * input)
-{
-	int uniqId = threadIdx.x;
-
-	printf("uniqId : %d, value : %d \n", uniqId, input[uniqId]);
-}
-
 __global__ void uniqueIndexCalcGridThreadIdx(int * input)
 {
-	int numThreadsInABlock = blockDim.x;
+	int numThreadsInABlock = blockDim.x * blockDim.y;
 
-	int uniqBlockId = blockIdx.x;
+	int uniqBlockId = (gridDim.x * blockIdx.y) +
+	                  blockIdx.x;
 
-	int uniqThreadId = threadIdx.x;
+	int uniqThreadId = (blockDim.x * threadIdx.y)
+	                   + threadIdx.x;
 
 	int uniqId = (numThreadsInABlock * uniqBlockId) + uniqThreadId;
 
-	printf("blockIdx.x : %d, "
-	       "threadIdx.x : %d, "
+	printf("blockIdx.x : %d, blockIdx.y : %d, "
+	       "threadIdx.x : %d, threadIdx.y : %d, "
 	       "uniqId : %d, value : %d \n",
-		(int)blockIdx.x, 
-		(int)threadIdx.x,
+		(int)blockIdx.x, (int)blockIdx.y,
+		(int)threadIdx.x, (int)threadIdx.y,
 		uniqId, input[uniqId]);
 }
 
@@ -45,13 +40,8 @@ int main()
 	hipMalloc((void**)&deviceData, arrayByteSize);
 	hipMemcpy(deviceData, hostData, arrayByteSize, hipMemcpyHostToDevice);
 
-	dim3 block1(16);
-	dim3 grid1(1);
-
-	uniqueIndexCalcThreadIdx <<< grid1, block1 >>> (deviceData);
-	
-	dim3 block(4);
-	dim3 grid(4);
+	dim3 block(2,2);
+	dim3 grid(2,2);
 	
 	uniqueIndexCalcGridThreadIdx <<< grid, block >>> (deviceData);
 	hipDeviceSynchronize();
