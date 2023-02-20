@@ -51,7 +51,7 @@ void compareResults(float gpuResult, float cpuResult)
 		gpuResult, cpuResult);
 }
 
-//Simple Initialization
+//Simple Array Initialization
 void initializeArray(int * input, const int arraySize,
 	INIT_PARAM PARAM, int x)
 {
@@ -103,7 +103,7 @@ void initializeArray(int * input, const int arraySize,
 	}
 }
 
-//Simple Initialization
+//Simple Array Initialization
 void initializeArray(float * input, const int arraySize,
 	INIT_PARAM PARAM, int x)
 {
@@ -275,32 +275,32 @@ float reductionArrayCpu(float * input, const int arraySize)
 	return sum;
 }
 
-//Print Arrays to a File
-void printArraysToAFile(int * a, const int arraySize, const char * fileName)
+//Print Array to a File
+void printArrayToAFile(int * input, const int arraySize, const char * fileName)
 {
 	std::ofstream file(fileName);
 
-	if (file.is_open())
-	{
-		for (int i = 0; i < arraySize; i++) {
-			file << i << " - " << a[i] << "\n";
-		}
-		file.close();
+	if (!file.is_open())
+		return;
+
+	for (int i = 0; i < arraySize; i++) {
+		file << i << " - " << input[i] << "\n";
 	}
+	file.close();
 }
 
-//Print Arrays to a File
-void printArraysToAFile(float * a, const int arraySize, const char * fileName)
+//Print Array to a File
+void printArrayToAFile(float * input, const int arraySize, const char * fileName)
 {
 	std::ofstream file(fileName);
 
-	if (file.is_open())
-	{
-		for (int i = 0; i < arraySize; i++) {
-			file << i << " - " << a[i] << "\n";
-		}
-		file.close();
+	if (!file.is_open())
+		return;
+
+	for (int i = 0; i < arraySize; i++) {
+		file << i << " - " << input[i] << "\n";
 	}
+	file.close();
 }
 
 //Print Arrays to a File Side By Side
@@ -308,13 +308,13 @@ void printArraysToAFileSideBySide(int * a, int * b, const int arraySize, const c
 {
 	std::ofstream file(fileName);
 
-	if (file.is_open())
-	{
-		for (int i = 0; i < arraySize; i++) {
-			file << i << " - " << a[i] << " - " << b[i] << "\n";
-		}
-		file.close();
+	if (!file.is_open())
+		return;
+
+	for (int i = 0; i < arraySize; i++) {
+		file << i << " - " << a[i] << " - " << b[i] << "\n";
 	}
+	file.close();
 }
 
 //Print Arrays To a File Side by Side
@@ -322,13 +322,13 @@ void printArraysToAFileSideBySide(float * a, float * b, const int arraySize, con
 {
 	std::ofstream file(fileName);
 
-	if (file.is_open())
-	{
-		for (int i = 0; i < arraySize; i++) {
-			file << i << " - " <<a[i] << " - " << b[i] << "\n";
-		}
-		file.close();
+	if (!file.is_open())
+		return;
+
+	for (int i = 0; i < arraySize; i++) {
+		file << i << " - " << a[i] << " - " << b[i] << "\n";
 	}
+	file.close();
 }
 
 //Initialize Matrix
@@ -356,13 +356,13 @@ float* initializeFloatMatrix(const int nx, const int ny, INIT_PARAM PARAM)
 }
 
 //Print Matrix
-void printMatrix(int * matrix, const int nx, const int ny)
+void printMatrix(int * mat, const int nx, const int ny)
 {
 	for (int iy = 0; iy < ny; iy++)
 	{
 		for (int ix = 0; ix < nx; ix++)
 		{
-			printf("%d ",matrix[nx * iy + ix]);
+			printf("%d ",mat[nx * iy + ix]);
 		}
 		printf("\n");
 	}
@@ -370,17 +370,53 @@ void printMatrix(int * matrix, const int nx, const int ny)
 }
 
 //Print Matrix
-void printMatrix(float * matrix, const int nx, const int ny)
+void printMatrix(float * mat, const int nx, const int ny)
 {
 	for (int iy = 0; iy < ny; iy++)
 	{
 		for (int ix = 0; ix < nx; ix++)
 		{
-			printf("%.2f ", matrix[nx * iy + ix]);
+			printf("%.2f ", mat[nx * iy + ix]);
 		}
 		printf("\n");
 	}
 	printf("\n");
+}
+
+//Print Matrix to a File
+void printMatrixToAFile(int * mat, const int nx, const int ny, const char * fileName)
+{
+	std::ofstream file(fileName);
+
+	if (!file.is_open())
+		return;
+
+	for (int iy = 0; iy < ny; iy++)
+	{
+		for (int ix = 0; ix < nx; ix++)
+		{
+			file << iy << "," << ix << " - " << mat[nx * iy + ix ] << "\n";
+		}
+	}
+	file.close();
+}
+
+//Print Matrix to a File
+void printMatrixToAFile(float * mat, const int nx, const int ny, const char * fileName)
+{
+	std::ofstream file(fileName);
+
+	if (!file.is_open())
+		return;
+
+	for (int iy = 0; iy < ny; iy++)
+	{
+		for (int ix = 0; ix < nx; ix++)
+		{
+			file << iy << "," << ix << " - " << mat[nx * iy + ix ] << "\n";
+		}
+	}
+	file.close();
 }
 
 //Matrix Transpose with CPU

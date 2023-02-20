@@ -33,11 +33,11 @@ void compareResults(int gpuResult, int cpuResult);
 //Compare Results
 void compareResults(float gpuResult, float cpuResult);
 
-//Simple Initialization
+//Simple Array Initialization
 void initializeArray(int * input, const int arraySize,
 	INIT_PARAM PARAM = INIT_ONE_TO_TEN, int x = 0xFF);
 
-//Simple Initialization
+//Simple Array Initialization
 void initializeArray(float * input, const int arraySize,
 	INIT_PARAM PARAM = INIT_ONE_TO_TEN, int x = 0xFF);
 
@@ -74,11 +74,11 @@ int reductionArrayCpu(int * input, const int arraySize);
 //Array Reduction with CPU
 float reductionArrayCpu(float * input, const int arraySize);
 
-//Print Arrays to a File
-void printArraysToAFile(int * a, const int arraySize, const char * fileName);
+//Print Array to a File
+void printArrayToAFile(int * input, const int arraySize, const char * fileName);
 
-//Print Arrays to a File
-void printArraysToAFile(float * a, const int arraySize, const char * fileName);
+//Print Array to a File
+void printArrayToAFile(float * input, const int arraySize, const char * fileName);
 
 //Print Arrays to a File Side By Side
 void printArraysToAFileSideBySide(int * a, int * b, const int arraySize, const char * fileName);
@@ -93,10 +93,16 @@ int* initializeMatrix(const int nx, const int ny, INIT_PARAM PARAM=INIT_FOR_SPAR
 float* initializeFloatMatrix(const int nx, const int ny, INIT_PARAM PARAM=INIT_FOR_SPARSE_MATRIX);
 
 //Print Matrix
-void printMatrix(int * matrix, const int nx, const int ny);
+void printMatrix(int * mat, const int nx, const int ny);
 
 //Print Matrix
-void printMatrix(float * matrix, const int nx, const int ny);
+void printMatrix(float * mat, const int nx, const int ny);
+
+//Print Matrix to a File
+void printMatrixToAFile(int * mat, const int nx, const int ny, const char * fileName);
+
+//Print Matrix to a File
+void printMatrixToAFile(float * mat, const int nx, const int ny, const char * fileName);
 
 //Print Matrix with Message
 #define printMsgMatrix(msg, mat, nx, ny) do { printf("%s: \n", msg); printMatrix(mat, nx, ny); } while(0);
