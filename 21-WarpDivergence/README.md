@@ -6,7 +6,7 @@ Ensure you have ROC Profiler Installed:
 
 ```shell
 apt update
-apt install rocprofiler-dev roctracer-dev
+apt install rocprofiler-dev roctracer-dev rocm-utils
 ```
 
 ## Compiling for Profiling

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #define HANDLE_NULL( a ) do { \
-				if (a == NULL) { \
+				if ( (a) == NULL) { \
 					printf( "Host memory failed in %s at line %d\n", \
 							__FILE__, __LINE__ );  \
 					exit( EXIT_FAILURE ); \
