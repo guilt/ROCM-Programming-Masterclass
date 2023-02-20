@@ -15,7 +15,7 @@ void queryDevice(const int deviceNum)
 	}
 
 	hipDeviceProp_t iProp;
-	hipGetDeviceProperties(&iProp, deviceNum);
+	gpuErrorCheck(hipGetDeviceProperties(&iProp, deviceNum));
 
 	printf("Device %d: %s\n", deviceNum, iProp.name);
 	printf("  Number of multiprocessors:                     %d\n",
@@ -26,8 +26,8 @@ void queryDevice(const int deviceNum)
 		( iProp.memoryClockRate * MEMORY_CLOCK_MULTIPLIER ) / 1000.0);
 	printf("  Memory Bus Width:                              %d bits, %d bytes\n",
 		iProp.memoryBusWidth, iProp.memoryBusWidth / 8);
-	printf("  Compute capability:                            %d.%d\n",
-		iProp.major,iProp.minor);
+	printf("  HIP* Compute capability:                       %d.%d\n",
+		iProp.major, iProp.minor);
 	printf("  Total amount of global memory:                 %4.2f kB\n",
 		iProp.totalGlobalMem/ 1024.0);
 	printf("  Total amount of constant memory:               %4.2f kB\n",
@@ -50,4 +50,6 @@ void queryDevice(const int deviceNum)
 		iProp.maxGridSize[0], iProp.maxGridSize[1], iProp.maxGridSize[2]);
 	printf("  Maximum Block dimension:                       (%d,%d,%d)\n",
 		iProp.maxThreadsDim[0], iProp.maxThreadsDim[1], iProp.maxThreadsDim[2]);
+	printf(" \n");
+	printf(" * - not mappable to CUDA Compute capability\n");
 }
