@@ -6,17 +6,20 @@
 
 #include <hip/hip_runtime.h>
 
+//Error Checking on GPU
 #define gpuErrorCheck(ans) do { gpuAssert((ans), __FILE__, __LINE__); } while(0);
 
+//Helper for Error Checking on GPU
 inline void gpuAssert(hipError_t code, const char *file, const int line, bool abort = true)
 {
 	if (code != hipSuccess)
 	{
-		fprintf(stderr, "GPUassert: %s %s %d\n", hipGetErrorString(code), file, line);
+		fprintf(stderr, "GPUassert: [%s:%d] %s\n", file, line, hipGetErrorString(code));
 		if (abort) exit(code);
 	}
 }
 
+//Query Device Parameters
 void queryDevice(const int deviceNum = 0);
 
 #endif // !HIP_COMMON_H

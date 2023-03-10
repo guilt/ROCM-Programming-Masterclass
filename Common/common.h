@@ -4,13 +4,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define HANDLE_NULL( a ) do { \
-				if ( (a) == NULL) { \
-					printf( "Host memory failed in %s at line %d\n", \
-							__FILE__, __LINE__ );  \
-					exit( EXIT_FAILURE ); \
-				} \
-			} while(0);
+//Error Checking on CPU
+#define cpuErrorCheck(ans, msg) do { bool asserted = (ans); cpuAssert(asserted, __FILE__, __LINE__, msg); } while(0);
+
+//Helper for Error Checking on GPU
+inline void cpuAssert(bool asserted, const char *file, const int line, const char *msg = NULL, bool abort = true)
+{
+	if (!asserted)
+	{
+		fprintf(stderr, "CPUassert: [%s:%d] %s\n", file, line, (msg != NULL)? msg: "");
+		if (abort) exit(EXIT_FAILURE);
+	}
+}
+
+//NULL Checking on CPU
+#define HANDLE_NULL( a ) cpuErrorCheck( ((a) != NULL) , "Host Memory Failed" );
 
 //Array Initialization
 enum INIT_PARAM{
