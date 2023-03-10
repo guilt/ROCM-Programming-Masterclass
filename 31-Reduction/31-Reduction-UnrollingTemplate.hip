@@ -6,27 +6,28 @@
 #include <hip/hip_runtime.h>
 #include <hipCommon.hiph>
 
+//Unroll Factor
+const int unrollFactor = 8;
+
 //Reduction with Complete Unrolling Template
 template<unsigned int inputBlockSize> __global__ void reductionUnrollingTemplate (int * input, int * temp, int size) {
 	int threadId = threadIdx.x;
-	int blockOffset = blockDim.x * blockIdx.x * 8;
-	int uniqueIndex = blockOffset + threadIdx.x;
+	int blockOffset = blockDim.x * blockIdx.x * unrollFactor;
+	int uniqueIndex = blockOffset + threadId;
 	int * inputBlock = input + blockOffset;
 	
 	assert(blockDim.x <= 4096);
 
-	if ((uniqueIndex + 7 * blockDim.x) < size)
+	if ((uniqueIndex + (unrollFactor-1) * blockDim.x) < size)
 	{
-		int a1 = input[uniqueIndex];
-		int a2 = input[uniqueIndex + blockDim.x];
-		int a3 = input[uniqueIndex + 2 * blockDim.x];
-		int a4 = input[uniqueIndex + 3 * blockDim.x];
-		int a5 = input[uniqueIndex + 4 * blockDim.x];
-		int a6 = input[uniqueIndex + 5 * blockDim.x];
-		int a7 = input[uniqueIndex + 6 * blockDim.x];
-		int a8 = input[uniqueIndex + 7 * blockDim.x];
-
-		input[uniqueIndex] = a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8;
+		input[uniqueIndex] +=
+		input[uniqueIndex + blockDim.x*1] +
+		input[uniqueIndex + blockDim.x*2] +
+		input[uniqueIndex + blockDim.x*3] +
+		input[uniqueIndex + blockDim.x*4] +
+		input[uniqueIndex + blockDim.x*5] +
+		input[uniqueIndex + blockDim.x*6] +
+		input[uniqueIndex + blockDim.x*7];
 	}
 
 	__syncthreads();
@@ -92,7 +93,7 @@ int main(int argc, char ** argv)
 	int cpuResult = reductionArrayCpu(hostInput, size);
 
 	dim3 block(blockSize);
-	dim3 grid(size/block.x);
+	dim3 grid((size/block.x)/unrollFactor);
 
 	int tempArrayByteSize = sizeof(int) * grid.x;
 	HANDLE_NULL(hostTemp = (int*)malloc(tempArrayByteSize));

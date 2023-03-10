@@ -15,12 +15,12 @@ __global__ void reductionNeighborhoodUnrollingBlocks2Way(int * input, int * temp
 	int threadId = threadIdx.x;
 	int blockOffset = blockIdx.x * blockDim.x * unrollFactor;
 	int *inputBlock = input + blockOffset;
-	int thrBlockIdx = blockOffset + threadId;
+	int uniqueIndex = blockOffset + threadId;
 
-	if ((thrBlockIdx + ((unrollFactor -1)*blockDim.x)) < size)
+	if ((uniqueIndex + ((unrollFactor -1)*blockDim.x)) < size)
 	{
-		input[thrBlockIdx] +=
-		input[thrBlockIdx + blockDim.x*1];
+		input[uniqueIndex] +=
+		input[uniqueIndex + blockDim.x*1];
 	}
 
 	__syncthreads();
