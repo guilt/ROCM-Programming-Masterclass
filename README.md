@@ -40,7 +40,7 @@ similar to `nvcc`.
 
 ```shell
 cd 01-Hello
-hipcc -o 01-Hello.out 01-Hello.hip
+hipcc -o 01-Hello.out 01-Hello.hip -I ../Common ../Common/*.cpp ../Common/*.hip
 ./01-Hello.out
 ```
 
