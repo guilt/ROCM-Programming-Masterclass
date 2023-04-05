@@ -19,7 +19,7 @@ As of now, these are only available for select **Linux Distributions**.
 
 2. Next, go through the steps found in [this GitHub Gist](https://gist.github.com/guilt/6c901f7ac0a726685b6334798da77c00).
 
-3. Download the scripts from the Gist and build the `rocm-examples-pytorch` container.
+3. Download the scripts from the Gist and build the `rocm-examples` container.
 
 4. Git clone this repository on your computer. From within this directory, run:
 

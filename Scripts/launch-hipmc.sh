@@ -16,4 +16,4 @@ exec docker run \
 	-h hip-examples \
 	--device /dev/kfd --device /dev/dri \
 	-v "${CONTENT_DIR}":/workspaces/hip-examples \
-	rocm-examples-pytorch "$CMD"
+	rocm-examples "$CMD"
