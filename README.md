@@ -28,7 +28,7 @@ As of now, these are only available for select **Linux Distributions**.
 ```
 
 5. You will be in a **Docker Container** named `hip-examples` and with everything
-ready to go. You will see this Git repository mounted `/workspace/hip-examples'
+ready to go. You will see this Git repository mounted `/workspace/hip-examples`
 and this README within it.
 
 6. Now you can get to work, follow the course.
@@ -40,7 +40,8 @@ similar to `nvcc`.
 
 ```shell
 cd 01-Hello
-hipcc -o 01-Hello.out 01-Hello.hip -I ../Common ../Common/*.cpp ../Common/*.hip
+hipcc -o 01-Hello.out 01-Hello.hip \
+      -I ../Common ../Common/*.cpp ../Common/*.hip
 ./01-Hello.out
 ```
 
@@ -48,7 +49,7 @@ Things like `rocprof` are there to profile those applications, but do not have t
 same amount of robustness as `nvprof`.
 
 For most CUDA API calls, most things are `cu` or `cuda` replaced by `hip`. I've
-ported the `cudaCommon.[cu]h` to `hipCommon.hip[h]` in the `Common/` directory.
+ported the `cudaCommon.cu[h]` to `hipCommon.hip[h]` in the `Common/` directory.
 
 ## Why all this Effort?
 
